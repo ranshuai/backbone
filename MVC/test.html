@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script src="../underscore.js"></script>
+    <script src="../backbone.js"></script>
+</head>
+<body>
+<button style="" data="1">按钮1</button>
+<button style="" data="2">按钮2</button>
+<button style="" data="3">按钮3</button>
+
+<div id="mainBox">
+
+</div>
+<script type="template" id="template">
+    <% _.each (obj,function(item){ %>
+            <%= item.color %>
+    <%})%>
+</script>
+
+<script>
+    var Model = Backbone.Model.extend({
+        defaults:{
+            "name":"red"
+        }
+    });
+
+    var Collection = Backbone.Collection.extend({
+        model:Model,
+        url:"./data/test.json",
+        initialize:function(){
+            var self = this;
+            this.fetch({
+                "success":function(c,r,o){
+                    self.trigger('testData:load',r.data);
+                }
+            });
+        }
+    });
+
+    var collectionMain = new Collection();
+
+    var View = Backbone.View.extend({
+
+        tagName:"div",
+
+        initialize:function(){
+            this.collection.on('testData:load',function(respont){
+                this.render(respont);
+            },this);
+            this.listenTo(this.collection,'reset',function(list){
+                var aList = [];
+                this.collection.each(function(model){
+                    aList.push(model.toJSON())
+                });
+                this.render(aList);
+            });
+        },
+
+        render:function(respont){
+
+            this.$el.html(this.template(respont))
+        },
+
+        template:_.template($('#template').html())
+    });
+
+    var view = new View({
+        collection:collectionMain
+    });
+
+    $('body').append(view.el);
+
+    /*-----------------------------------------------------------------------------*/
+    //大的视图模型
+    var BodyView = Backbone.View.extend({
+        el:"body",
+        events:{
+            'click button':'clickBtn'
+        },
+        clickBtn:function(e){
+            var $this = $(e.target);
+            var data = $this.attr('data');
+
+            var Collection = Backbone.Collection.extend({
+                url:"./data/testBtn"+data+".json"
+            });
+            var collection = new Collection();
+            collection.fetch({
+                success:function(c,r,o){
+                    collectionMain.reset(r.data);
+                }
+            });
+        }
+    });
+
+    var bodyView = new BodyView();
+
+</script>
+</body>
+</html>
