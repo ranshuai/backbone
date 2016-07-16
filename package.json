@@ -1,0 +1,23 @@
+{
+  "name": "backbone",
+  "version": "1.0.0",
+  "description": ">1. http://www.css88.com/doc/underscore/\r >1. http://www.css88.com/doc/backbone/",
+  "main": "backbone.js",
+  "scripts": {
+    "dev":" webpack& webpack-dev-server  --progress --hot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ranshuai/backbone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ranshuai/backbone/issues"
+  },
+  "homepage": "https://github.com/ranshuai/backbone#readme",
+  "devDependencies": {
+    "webpack": "^1.13.1"
+  }
+}
