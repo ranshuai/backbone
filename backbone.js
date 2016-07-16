@@ -824,7 +824,6 @@
     // the core operation for updating the data contained by the collection.
     set: function(models, options) {
       if (models == null) return;
-
       options = _.extend({}, setOptions, options);
       if (options.parse && !this._isModel(models)) {
         models = this.parse(models, options) || [];
