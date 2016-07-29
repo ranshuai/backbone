@@ -6,15 +6,16 @@ $(function () {
             "name": "red"
         }
     });
-
     var Collection = Backbone.Collection.extend({
         model: Model,
-        url: "./data/test.json",
+        // url: "/site/loadIndexData.do",
+        url: "/perfectInfo/changeIdentity.do",
         initialize: function () {
             var self = this;
             this.fetch({
                 "success": function (c, r, o) {
                     self.trigger('testData:load', r.data);
+                    console.log(r);
                 }
             });
         }
@@ -78,3 +79,5 @@ $(function () {
 
     var bodyView = new BodyView();
 });
+
+console.log('11111');
